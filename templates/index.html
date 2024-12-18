@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helmet Monitoring Dashboard</title>
+  <!-- Include Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .helmet-item {
+        cursor: pointer;
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .helmet-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+    .active-helmet {
+        background-color: #d4edda;
+        border: 3px solid green;
+    }
+    .offline-helmet {
+        background-color: #f8d7da;
+        border: 3px solid red;
+    }
+    .helmet-item img {
+        width: 100px;
+        height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('landing') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="40" height="40">
+            WellFareMiner
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about_us') }}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('user_management') }}">User</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container my-5">
+    <h1 class="text-center mb-4">Helmet Monitoring Dashboard</h1>
+    <hr>
+
+    <!-- Helmet Status Cards Section -->
+    <h3 class="mb-4">Available Helmets</h3>
+    <div class="row g-4"> 
+      {% if helmets %}
+          {% for helmet in helmets %}
+              <div class="col-md-4">
+                  <div class="helmet-item {% if helmet['status'] == 'online' %}active-helmet{% else %}offline-helmet{% endif %}">
+                      <a href="{% if helmet['status'] == 'online' %}
+                              {{ url_for('helmet_detail', helmet_id=helmet['helmet_id']) }}
+                          {% else %}
+                              {{ url_for('offline_helmets') }}
+                          {% endif %}" class="text-decoration-none">
+                          <img src="{{ url_for('static', filename='images/helmet_logo.png') }}" alt="Helmet Logo" class="mb-3">
+                          <h5 class="text-dark">Helmet {{ helmet['helmet_id'] }}</h5>
+                          <p class="{% if helmet['status'] == 'online' %}text-success{% else %}text-danger{% endif %}">
+                              {% if helmet['status'] == 'online' %}Active{% else %}Offline{% endif %}
+                          </p>
+                      </a>
+                  </div>
+              </div>
+          {% endfor %}
+      {% else %}
+          <div class="col-12">
+              <p class="text-center text-muted">No helmets available at the moment.</p>
+          </div>
+      {% endif %}
+  </div>
+  
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 WellFareMiner. All Rights Reserved.</p>
+        <p>
+            <a href="#privacy-policy" class="text-decoration-none text-white">Privacy Policy</a> | 
+            <a href="#terms" class="text-decoration-none text-white">Terms of Service</a> | 
+            <a href="#contact" class="text-decoration-none text-white">Contact Us</a>
+        </p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

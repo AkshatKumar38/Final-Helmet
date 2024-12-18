@@ -1,0 +1,48 @@
+/* Additional Custom Styling */
+body {
+    background-color: #f7f7f7;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: none;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+h3 {
+    font-weight: bold;
+    color: #4c8bf5;
+}
+
+/* Button Hover Effect */
+.btn-primary {
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #357ae8;
+}
+
+/* Navbar */
+.navbar {
+    padding: 1rem;
+}
+
+.navbar-brand img {
+    max-width: 40px;
+    max-height: 40px;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: #5a5a5a;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #4c8bf5;
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%; /* Full height */
+            margin: 0; /* Remove margin */
+            display: flex;
+            flex-direction: column; /* Flex layout for the body */
+        }
+        main {
+            flex: 1; /* Expand to fill available space */
+            padding: 20px; /* Optional padding */
+            background-color: #f8f9fa;
+        }
+        .helmet-item {
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .helmet-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .active-helmet {
+            border: 3px solid green;
+            background-color: #d4edda;
+        }
+        .offline-helmet {
+            border: 3px solid red;
+            background-color: #f8d7da;
+        }
+        .helmet-item img {
+            width: 100px;
+            height: 100px;
+        }
+        footer {
+            background-color:rgb(0, 0, 0);
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <!-- Logo on the left -->
+            <a class="navbar-brand" href="{{ url_for('landing') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="40" height="40">
+                WellFareMiner
+              </a>
+
+            <!-- Navbar toggle for responsiveness -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about_us') }}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('user_management') }}">User</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+<!-- Main Content -->
+<main>
+    <div class="container">
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Meet Our Team</h1>
+            <p class="text-justify">
+                At WellFareMiner, we pride ourselves on our collaborative and innovative team, driven by a shared passion for excellence. Each member of our team brings unique expertise and a commitment to delivering the highest quality service and solutions. We work together to not only meet but exceed the expectations of our clients, ensuring we remain at the forefront of our industry.
+            </p>
+        
+            <h2 class="mt-5">Leadership Team</h2>
+            <p class="text-justify">
+                Our leadership team consists of visionary thinkers and industry veterans who provide guidance, inspire innovation, and uphold our values. They are committed to shaping a company culture of respect, integrity, and continuous improvement, while strategically steering us toward our long-term goals.
+            </p>
+        
+            <h2 class="mt-5">Experts in Their Fields</h2>
+            <p class="text-justify">
+                From engineers and designers to analysts and customer support specialists, each of our team members is a leader in their field. Our specialists bring deep knowledge, creativity, and a problem-solving mindset to every project. Whether developing new technologies or providing exceptional customer service, we work tirelessly to ensure the success of our clients.
+            </p>
+        
+            <h2 class="mt-5">A Culture of Collaboration</h2>
+            <p class="text-justify">
+                At WellFareMiner, we foster a culture where every voice is heard, and collaboration is key to our success. Our diverse team comes together to share ideas, challenge the status quo, and create solutions that push boundaries. We are committed to continuous learning, supporting one another’s growth, and celebrating every milestone we achieve together.
+            </p>
+        
+            <h2 class="mt-5">Our Values</h2>
+            <ul class="text-justify" style="line-height: 1.8;">
+                <li><strong>Innovation:</strong> We continuously seek new ways to improve, evolve, and create cutting-edge solutions.</li>
+                <li><strong>Integrity:</strong> We are transparent, honest, and accountable in everything we do.</li>
+                <li><strong>Collaboration:</strong> Our team thrives when we work together, combining our strengths to achieve success.</li>
+                <li><strong>Excellence:</strong> We deliver the best quality service, products, and solutions every time.</li>
+            </ul>
+        
+            <p class="text-justify">
+                We are proud of the diverse talents that make up our team, and we look forward to continuing to work together to meet the needs of our clients and drive the success of our business.
+            </p>
+        </div>
+        
+
+        <!-- Tabs Section -->
+        <div class="mt-5">
+            <h2 class="text-center mb-4">Our Mentors & Team</h2>
+            
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs justify-content-center" id="teamTabs" role="tablist">
+                <!-- Mentors Tab -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="mentors-tab" data-bs-toggle="tab" data-bs-target="#mentors" type="button" role="tab" aria-controls="mentors" aria-selected="true">
+                        Mentors
+                    </button>
+                </li>
+                <!-- Team Members Tab -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="team-tab" data-bs-toggle="tab" data-bs-target="#team" type="button" role="tab" aria-controls="team" aria-selected="false">
+                        Team Members
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tabs Content -->
+            <div class="tab-content mt-4" id="teamTabsContent">
+                <!-- Mentors Content -->
+                <div class="tab-pane fade show active" id="mentors" role="tabpanel" aria-labelledby="mentors-tab">
+                    <div class="row justify-content-center">
+                        <!-- Mentor 1 -->
+                        <div class="col-md-3 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/Nidhi.jpg') }}" class="rounded-circle img-fluid" alt="Mentor 1" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Dr. Nidhi Kalra</h5>
+                            <p>Project Mentor</p>
+                        </div>
+                        <!-- Mentor 2 -->
+                        <div class="col-md-3 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/Seemu.png') }}" class="rounded-circle img-fluid" alt="Mentor 2" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Dr. Seemu Sharma</h5>
+                            <p>Project Advisor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members Content -->
+                <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
+                    <div class="row justify-content-center">
+                        <!-- Team Member 1 -->
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/Kashish.png') }}" class="rounded-circle img-fluid" alt="Team Member 2" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Kashish</h5>
+                            <p>Safety Engineer</p>
+                        </div>
+                        <!-- Team Member 2 -->
+                        <div class="col-md-4 text-center mb-4">
+                            
+                            <img src="{{ url_for('static', filename='images/Akshat.png') }}" class="rounded-circle img-fluid" alt="Team Member 1" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Akshat</h5>
+                            <p>Lead Developer</p>
+                        </div>
+                        <!-- Team Member 3 -->
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/Daksh.png') }}" class="rounded-circle img-fluid" alt="Team Member 3" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Daksh</h5>
+                            <p>Embedded Systems Expert</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <!-- Team Member 4 -->
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/team_member4.jpg') }}" class="rounded-circle img-fluid" alt="Team Member 4" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Kanav</h5>
+                            <p>UI/UX Designer</p>
+                        </div>
+                        <!-- Team Member 5 -->
+                        <div class="col-md-4 text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/team_member5.jpg') }}" class="rounded-circle img-fluid" alt="Team Member 5" style="width: 150px; height: 150px;">
+                            <h5 class="mt-2">Manu</h5>
+                            <p>Hardware Engineer</p>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; 2024 WellFareMiner. All Rights Reserved.</p>
+            <p>
+                <a href="#privacy-policy" class="text-decoration-none text-white">Privacy Policy</a> | 
+                <a href="#terms" class="text-decoration-none text-white">Terms of Service</a> | 
+                <a href="#contact" class="text-decoration-none text-white">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

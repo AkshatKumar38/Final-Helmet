@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+        footer {
+            margin-top: auto;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .stats-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .hover-box {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .hover-box:hover {
+            transform: translateY(-5px); /* Elevates the box */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('landing') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="40" height="40">
+                WellFareMiner
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about_us') }}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('user_management') }}">User</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">User Management</h1>
+        <h3 class="text-center mb-5">Welcome, {{ username }}!</h3>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Stats Cards -->
+        <!-- User Management Stats Section -->
+        <div class="row g-4">
+            <!-- Total Helmets -->
+            <div class="col-md-4">
+                <div class="card text-center stats-card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title fs-4">Total Helmets</h5>
+                        <p class="card-text display-4">{{ total_helmets }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Helmets -->
+            <div class="col-md-4">
+                <div class="card text-center stats-card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title fs-4">Active Helmets</h5>
+                        <p class="card-text display-4">{{ active_helmets }}</p>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Offline Helmets -->
+            <div class="col-md-4">
+                <div class="card text-center stats-card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title fs-4">Offline Helmets</h5>
+                        <p class="card-text display-4">{{ offline_helmets }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Add Helmet Section -->
+        <div class="container mt-5">
+            <h2 class="text-center mb-3">Add New Helmet</h2>
+            <div class="hover-box">
+                <form method="POST" action="{{ url_for('add_helmet') }}">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <label for="helmet_id" class="form-label">Helmet ID</label>
+                            <input type="text" class="form-control" id="helmet_id" name="helmet_id" placeholder="Helmet 11" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="offline">Offline</option>
+                                <option value="online">Active</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-success w-100">Add Helmet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Update Helmet Section -->
+        <div class="container mt-5">
+            <h2 class="text-center mb-3">Update Helmet Status</h2>
+            <div class="hover-box">
+                <form method="POST" action="{{ url_for('update_helmet_status') }}">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <label for="helmet_id_update" class="form-label">Helmet ID</label>
+                            <input type="text" class="form-control" id="helmet_id_update" name="helmet_id" placeholder="Helmet 11" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="status_update" class="form-label">Status</label>
+                            <select class="form-select" id="status_update" name="status" required>
+                                <option value="offline">Offline</option>
+                                <option value="online">Active</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">Update Status</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Delete Helmet Section -->
+        <div class="container mt-5">
+            <h2 class="text-center mb-3">Delete Helmet</h2>
+            <div class="hover-box">
+                <form method="POST" action="{{ url_for('delete_helmet') }}">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <label for="helmet_id_delete" class="form-label">Helmet ID</label>
+                            <input type="text" class="form-control" id="helmet_id_delete" name="helmet_id" placeholder="Enter Helmet ID" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-danger w-100">Delete Helmet</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>        
+        <div class="container mt-5">
+            
+        </div>  
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; WellFareMiner. All Rights Reserved.</p>
+            <p>
+                <a href="#privacy-policy" class="text-decoration-none text-white">Privacy Policy</a> | 
+                <a href="#terms" class="text-decoration-none text-white">Terms of Service</a> | 
+                <a href="#contact" class="text-decoration-none text-white">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

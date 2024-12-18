@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5"> <!-- Refresh every 1 second -->
+    <title>Helmet Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Helmet Status</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Sticky Footer Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body height covers full viewport */
+            background-color: #f8f9fa;
+        }
+        main {
+            flex: 1; /* Allow main content to stretch and push the footer down */
+        }
+        .message-box {
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .message-box h1 {
+            color: #dc3545; /* Red color for emphasis */
+            font-size: 2.5rem;
+        }
+        
+        footer {
+            background-color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        footer span {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+    
+    
+</head>
+<body>
+     <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Logo on the left -->
+        <a class="navbar-brand" href="{{ url_for('landing') }}">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="40" height="40">
+          WellFareMiner
+        </a>
+
+        <!-- Navbar toggle for responsiveness -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('about_us') }}">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('user_management') }}">User</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>    
+          </ul>
+        </div>
+    </div>
+  </nav>
+    <div style="width: 80%;
+     margin: auto;">
+        <h2>Live Helmet Data</h2>
+
+        <!-- Helmet Status Display -->
+        <h3><p id="helmet-status">Helmet Worn: <span style="color: green;">On</span></p></h3>
+
+        <!-- Graph -->
+        <canvas id="helmetChart"></canvas>
+    </div>
+
+    <script>
+        // Initialize the chart with empty data
+    const ctx = document.getElementById('helmetChart').getContext('2d');
+    const helmetChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Helmet Data',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'CO Level'
+                    },
+                    min: 0, // Set minimum value of Y-axis
+                    max: 1000 // Set maximum value of Y-axis
+                }
+            }
+        }
+    });
+
+
+        // Function to fetch data from the server
+        async function fetchHelmetData() {
+            try {
+                const response = await fetch('/get_helmet_data');
+                const data = await response.json();
+
+                console.log('Fetched Data:', data);  // Log the data
+
+                // Update the helmet status based on fetched data
+                if (data.helmet_worn !== undefined) {
+                    updateHelmetStatus(data.helmet_worn); // Call the function to update status
+                }
+
+                // Update the chart with the new data
+                if (data.labels && data.values) {
+                    helmetChart.data.labels = data.labels; // Latest labels
+                    helmetChart.data.datasets[0].data = data.values; // Latest values
+                    helmetChart.update();
+                }
+
+            } catch (error) {
+                console.error('Error fetching helmet data:', error);
+            }
+        }
+
+        // Poll the server every 5 seconds for updates
+        setInterval(fetchHelmetData, 5000);
+        fetchHelmetData(); // Initial fetch
+    </script>
+
+    <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 WellFareMiner. All Rights Reserved.</p>
+      <p>
+        <a href="#privacy-policy" class="text-decoration-none text-white">Privacy Policy</a> | 
+        <a href="#terms" class="text-decoration-none text-white">Terms of Service</a> | 
+        <a href="#contact" class="text-decoration-none text-white">Contact Us</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

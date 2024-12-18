@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Helmet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Sticky Footer Layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body height covers full viewport */
+            background-color: #f8f9fa;
+        }
+        main {
+            flex: 1; /* Allow main content to stretch and push the footer down */
+        }
+        .message-box {
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .message-box h1 {
+            color: #dc3545; /* Red color for emphasis */
+            font-size: 2.5rem;
+        }
+        .message-box p {
+            font-size: 1.2rem;
+            color: #6c757d; /* Muted text */
+        }
+        footer {
+            background-color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        footer span {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    =<!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <!-- Logo on the left -->
+      <a class="navbar-brand" href="{{ url_for('landing') }}">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" width="40" height="40">
+        WellFareMiner
+      </a>
+
+      <!-- Navbar toggle for responsiveness -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar links -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('about_us') }}">About Us</a> <!-- Link to About Us page --></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('user_management') }}">User</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li> 
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <!-- Main Content -->
+    <main class="container">
+        <div class="message-box">
+            <img src="{{ url_for('static', filename='images/404Error.png') }}" alt="Helmet Icon" class="mb-4" style="width: 200px;">
+            <h1 class="fw-bold">Helmet Not Added</h1>
+            <p class="mb-4">This helmet has not yet been added to the system. Please check back later or contact the admin for further assistance.</p>
+            <a href="/index" class="btn btn-primary btn-lg">Return to Dashboard</a>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 WellFareMiner. All Rights Reserved.</p>
+            <p>
+                <a href="#privacy-policy" class="text-decoration-none text-white">Privacy Policy</a> | 
+                <a href="#terms" class="text-decoration-none text-white">Terms of Service</a> | 
+                <a href="#contact" class="text-decoration-none text-white">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
